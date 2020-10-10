@@ -9,14 +9,46 @@ Inclua um loop que permita que o usuário repita esse cálculo para novos valore
 =end
 def retorno_hora(hora, minuto)
   resposta = "A"
-  resposta = "P" if hora.to_i > 12 && hora.to_i <= 23
+  resposta = "P" if hora > 12 && hora <= 23
+
+  resposta
+end
+
+def verifica_hora(hora)
+  resposta = true
+  if hora.to_i < 0 && hora.to_i > 23
+    resposta = false
+  end
+  resposta
+end
+
+def verifica_minuto(minuto)
+  resposta = true
+  if minuto.to_i < 0 && minuto.to_i > 59
+    resposta = false
+  end
   resposta
 end
 
 def converte_hora (hora, minuto)
-  hora_ampm = hora.to_i
-  hora_ampm = hora.to_i - 12 if hora.to_i > 12 && hora.to_i <= 23
-  resposta = "#{hora_ampm}:#{minuto} #{retorno_hora(hora, minuto)}"
+  if verifica_hora(hora) || verifica_minuto(minuto)
+    hora_ampm = hora.to_i
+    hora_ampm = (hora_ampm - 12) if hora_ampm > 12
+    if hora_ampm < 10
+      resposta = "0#{hora_ampm.to_s}"
+    else
+      resposta = "#{hora_ampm.to_s}"
+    end
+    if minuto < 10
+      resposta += (":0#{minuto.to_s}")
+    else
+      resposta += ":#{minuto.to_s}"
+    end
+    resposta += " #{retorno_hora(hora_ampm, minuto)}"
+    else
+  resposta = "Hora inválida!!"
+  end
+  resposta
 end
 
 begin
